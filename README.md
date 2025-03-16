@@ -165,7 +165,7 @@ srun python -u py_scripts_SSL4EO/train_SSL4EO_unet_pl_pretrain_mm.py \
 Use the `py_scripts_SSL4EO/train_SSL4EO_unet_pl_pretrain.py` script with `input_type=s1/s2` for each single modality
 
 ## Fine-tuning
-Example bash scripts:<br>
+Example bash scripts using one single GPU:<br>
 `train_SSL4EO_pl_ft_DFC2020.sh`<br>
 `train_SSL4EO_pl_ft_DW.sh`<br>
 `train_SSL4EO_pl_ft_OSM.sh`<br>
