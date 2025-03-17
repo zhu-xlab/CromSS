@@ -59,7 +59,7 @@ pip install -r requirements.txt
 ``` -->
 
 ## NOLDO-S12 Dataset
-**NoLDO-S12** contains two splits: **SSL4EO-S12@NoL** with <ins>noisy labels</ins> for pretraining, and two downstream datasets, **SSL4EO-S12@DW** and **SSL4EO-S12@OSM**, with <ins>exact labels</ins> for transfer learning.
+[**NoLDO-S12**](https://huggingface.co/datasets/vikki23/NoLDO-S12) contains two splits: **SSL4EO-S12@NoL** with <ins>noisy labels</ins> for pretraining, and two downstream datasets, **SSL4EO-S12@DW** and **SSL4EO-S12@OSM**, with <ins>exact labels</ins> for transfer learning.
 
 ### - SSL4EO-S12@NoL
 <div align="center">
@@ -68,12 +68,15 @@ Fig. 1. Illustration of the pretraining set SSL4EO-S12@NoL in NoLDO-S12. From le
 </div>
 <br>
 
-• **SSL4EO-S12@NoL** paired the large-scale, multi-modal, and multi-temporal self-supervised <a href='https://github.com/zhu-xlab/SSL4EO-S12' target='_blank'>SSL4EO-S12</a> dataset with the 9-class noisy labels (NoL) sourced from the Google Dynamic World (DW) project on Google Earth Engine (GEE). To keep the dataset's multi-temporal characteristics, we only retain the S1-S2-noisy label triples from the locations where all 4 timestamps of S1-S2 pairs have corresponding DW labels, resulting in about 41\% (103,793 out of the 251,079 locations) noisily labeled data of the SSL4EO-S12 dataset. SSL4EO-S12@NoL well reflects real-world use cases where noisy labels remain more difficult to obtain than bare S1-S2 image pairs.  
+• **SSL4EO-S12@NoL** paired the large-scale, multi-modal, and multi-temporal self-supervised <a href='https://github.com/zhu-xlab/SSL4EO-S12' target='_blank'>SSL4EO-S12</a> dataset with the 9-class noisy labels (NoL) sourced from the <a href='https://dynamicworld.app/' target='_blank'>Google Dynamic World (DW) project</a> on Google Earth Engine (GEE). To keep the dataset's multi-temporal characteristics, we only retain the S1-S2-noisy label triples from the locations where all 4 timestamps of S1-S2 pairs have corresponding DW labels, resulting in about 41\% (103,793 out of the 251,079 locations) noisily labeled data of the SSL4EO-S12 dataset. SSL4EO-S12@NoL well reflects real-world use cases where noisy labels remain more difficult to obtain than bare S1-S2 image pairs.  
+
+The paired noisy label masks along with corresponding image IDs in SSL4EO-S12 can be downloaded from [ssl4eo_s12_nol.zip](https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/ssl4eo_s12_nol.zip)
+
 
 
 ### - SSL4EO-S12@DW \& SSL4EO-S12@OSM
 <div align="center">
-<img src="media\SSL4EO_NS_Downstream_Part_V3.png" width="100%"/>
+<img src="media\SSL4EO_NS_Downstream_Part.png" width="100%"/>
 Fig. 2. Illustration of the two downstream tasks in NoLDO-S12 with different label sources (SSL4EO-S12@DW and SSL4EO-S12@OSM). Top (left and right): global data distributions(DW and OSM). Middle (left and right): class distributions of training and test sets along with corresponding legends (DW and OSM). Bottom: examples from 2 locations. The legend for DW labels is the same as that in Fig. 1.
 </div>
 
@@ -83,9 +86,13 @@ We construct two downstream datasets, **SSL4EO-S12@DW** and **SSL4EO-S12@OSM** f
 
 • **SSL4EO-S12@DW** was constructed from the DW expert labeled training subset of 4,194 tiles with given dimensions of 510×510 pixels and its hold-out validation set of 409 tiles with given dimensions of 512×512. The human labeling process allows some ambiguous areas left unmarked (white spots in DW masks in Fig. 2). We spatial-temporally aligned the S1 and S2 data for the training and test tiles with GEE, leading to 3,574 training tiles and 340 test tiles, that is, a total of 656,758,064 training pixels and 60,398,506 test pixels. The class distributions can be found in Fig. 2.
 
+The SSL4EO-S12@DW downstream dataset can be downloaded from [ssl4eo_s12_dw.zip](https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/ssl4eo_s12_dw.zip)
+
 • **SSL4EO-S12@OSM** adopts 13-class fine-grained labels derived from OpenStreetMap (OSM) following the work of <a href='https://osmlanduse.org/#12/8.7/49.4/0/' target='_blank'>Schultz et al.</a> We retrieved 2,996 OSM label masks among the 3,914=3,574+340 DW tiles, with the remaining left without OSM labels. After an automatic check with DW labels as reference assisted by some manual inspection, we construct SSL4EO-S12@OSM with 1,375 training tiles and 400 test tiles, that is, a total of 165,993,707 training pixels and 44,535,192 test pixels.
 
-Some downloading scripts can be found in `data_prepare/data_check_SSL4EO/get_dw_data` and `data_prepare/data_check_SSL4EO/get_osm_labels`
+The SSL4EO-S12@DW downstream dataset can be downloaded from [ssl4eo_s12_osm.zip](https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/ssl4eo_s12_osm.zip)
+
+• Some downloading scripts can be found in `data_prepare/data_check_SSL4EO/get_dw_data` and `data_prepare/data_check_SSL4EO/get_osm_labels`
 
 ## Data preparation
 • Write the SSL4EO-S12-NoL pretraining images (S1/S2) to lmdbs: `data_prepare/data_check_SSL4EO/construct_pretrain_lmdb/write_labels_to_lmdb.py`\
@@ -130,6 +137,37 @@ srun python -u py_scripts_SSL4EO/train_SSL4EO_unet_pl_pretrain_mm_sscom.py \
         --lr_adjust_type rop \
         --lr_adjust 30
 ```
+
+
+
+<table>
+  <tr>
+    <td>#S2 bands</td>
+    <td>Fusion type</td>
+    <td>Link</td>
+  </tr>
+  <tr>
+    <td rowspan="2">13B</td>
+    <td>middle</td>
+    <td><a href='https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/weights-cromss-13B-midFusion-epoch%3D199.ckpt' target='_blank'>weights-cromss-13B-midFusion-epoch=199.ckpt</a></td>
+  </tr>
+  <tr>
+    <td>late</td>
+    <td><a href='https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/weights-cromss-13B-lateFusion-epoch%3D199.ckpt' target='_blank'>weights-cromss-13B-lateFusion-epoch=199.ckpt</a></td>
+  </tr>
+  <tr>
+    <td rowspan="2">9B</td>
+    <td>middle</td>
+    <td><a href='https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/weights-cromss-9B-midFusion-epoch%3D199.ckpt' target='_blank'>weights-cromss-9B-midFusion-epoch=199.ckpt</a>
+  </tr>
+  <tr>
+    <td>late</td>
+    <td><a href='https://huggingface.co/datasets/vikki23/NoLDO-S12/blob/main/weights-cromss-9B-lateFusion-epoch%3D199.ckpt' target='_blank'>weights-cromss-9B-lateFusion-epoch=199.ckpt</a>
+    </td>
+  </tr>
+</table>
+
+
 
 ### - Multi-modal pretraining with noisy labels yet without cross-modal sample selection:
 Use the `py_scripts_SSL4EO/train_SSL4EO_unet_pl_pretrain_mm.py` script.
