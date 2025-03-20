@@ -21,7 +21,7 @@
 <div>
     <h4 align="center">
     <!-- • <a href="" target='_blank'>[TGRS]</a>  -->
-    • TGRS
+    • <a href="https://ieeexplore.ieee.org/document/10930953" target='_blank'> [TGRS] </a>
     • <a href="https://arxiv.org/abs/2405.01217" target='_blank'>[arXiv]</a>
     • <a href="https://github.com/zhu-xlab/CromSS" target='_blank'>[Project]</a>
     </h4>
@@ -55,7 +55,6 @@ conda activate CromSS
 
 # install torch and dependencies
 pip install -r requirements.txt
-# The dependent versions are not strict, and in general you only need to pay attention to mmcv and mmsegmentation.
 ``` -->
 
 ## NOLDO-S12 Dataset
